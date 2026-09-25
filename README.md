@@ -7,9 +7,18 @@
 ![GAS](https://img.shields.io/badge/Gameplay_Ability_System-GAS-8B5CF6)
 ![EnhancedInput](https://img.shields.io/badge/Enhanced_Input-0078D4)
 ![状态](https://img.shields.io/badge/status-学习Demo-brightgreen)
+[![演示视频](https://img.shields.io/badge/演示视频-B站-00A1D6)](https://www.bilibili.com/video/BV1ixdVBMEVx/)
 [![完整工程备份](https://img.shields.io/badge/完整工程备份-百度网盘·提取码kcgm-0066CC)](https://pan.baidu.com/s/1EjpiQiZTGHKf1InNfHM_GQ?pwd=kcgm)
 
 一个拆解 **《只狼》战斗系统** 的 Unreal Engine 学习项目：用 GAS 实现架势条、弹反/防反、处决与运镜、输入缓冲、全局顿帧、AI 立回（EQS）、Boss 战、掉落物与任务系统。
+
+---
+
+## 🎬 演示视频
+
+[![演示视频封面](Docs/images/demo-poster.png)](https://www.bilibili.com/video/BV1ixdVBMEVx/)
+
+> 【[游戏开发]借用ue商城素材搓了个能拼刀的demo】· 时长约 5 分 53 秒 —— 点击封面跳转 B 站观看
 
 ---
 
