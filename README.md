@@ -7,6 +7,7 @@
 ![GAS](https://img.shields.io/badge/Gameplay_Ability_System-GAS-8B5CF6)
 ![EnhancedInput](https://img.shields.io/badge/Enhanced_Input-0078D4)
 ![状态](https://img.shields.io/badge/status-学习Demo-brightgreen)
+[![完整工程备份](https://img.shields.io/badge/完整工程备份-百度网盘·提取码kcgm-0066CC)](https://pan.baidu.com/s/1EjpiQiZTGHKf1InNfHM_GQ?pwd=kcgm)
 
 一个拆解 **《只狼》战斗系统** 的 Unreal Engine 学习项目：用 GAS 实现架势条、弹反/防反、处决与运镜、输入缓冲、全局顿帧、AI 立回（EQS）、Boss 战、掉落物与任务系统。
 
@@ -95,7 +96,9 @@ GitHub 仓库只包含**代码与配置**。完整美术资源（约 9.3 GB）�
    ```bash
    git clone https://github.com/huangnaisheng/KnightRing.git
    ```
-2. 下载备份包并解压，把 `Content/` 与 `Plugins/` 复制到项目根目录
+2. 下载完整工程备份（`KnightRing_FullBackup.7z`，约 7.8 GB）并解压，把 `Content/` 与 `Plugins/` 复制到项目根目录：
+   - 🔗 链接：https://pan.baidu.com/s/1EjpiQiZTGHKf1InNfHM_GQ?pwd=kcgm
+   - 🔑 提取码：`kcgm`
 3. 安装 **UE 5.4**，双击 `UeLearn.uproject` 打开（首次会提示重新编译）
 
 ## 🧩 第三方插件来源
