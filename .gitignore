@@ -1,0 +1,28 @@
+# ===== Unreal Engine 生成目录（可随时重新生成）=====
+Binaries/
+Build/
+DerivedDataCache/
+Intermediate/
+Saved/
+
+# ===== IDE =====
+.vs/
+.idea/
+.vscode/
+*.sln
+*.suo
+*.opensln
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.opendb
+*.code-workspace
+
+# ===== 体积过大，不进 GitHub =====
+# 完整内容在网盘备份包 KnightRing_FullBackup.7z 里
+# 解压后把 Content/ 和 Plugins/ 放回项目根目录即可
+Content/
+Plugins/
+
+# ===== 其他 =====
+日志.txt
