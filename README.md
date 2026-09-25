@@ -121,7 +121,3 @@ GitHub 仓库只包含**代码与配置**。完整美术资源（约 9.3 GB）�
 ## ⚖️ 许可提醒
 
 `Content/` 中的市场资源（Fab / Epic 商城资产）仅供个人学习使用，请勿再分发。
-
-## 📌 下一步
-
-计划把战斗框架抽象为独立插件并上架 Fab 商城，完整路线图见 [Docs/PluginRoadmap.md](Docs/PluginRoadmap.md)。
