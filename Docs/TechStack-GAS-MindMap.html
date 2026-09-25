@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KnightRing · UeLearn — 技术栈思维导图 & GAS 架构图</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<style>
+  :root{
+    --bg:#0d1117; --card:#161b22; --border:#30363d; --text:#e6edf3; --dim:#8b949e;
+    --blue:#58a6ff; --green:#3fb950; --purple:#bc8cff; --orange:#f0883e; --red:#f85149;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:"Microsoft YaHei","PingFang SC","Segoe UI",sans-serif;line-height:1.6}
+  header{padding:40px 24px 24px;text-align:center;border-bottom:1px solid var(--border)}
+  header h1{margin:0 0 8px;font-size:28px}
+  header p{margin:4px 0;color:var(--dim)}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px}
+  .stat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 16px;font-size:13px}
+  .stat b{color:var(--blue);font-size:16px}
+  main{max-width:1180px;margin:0 auto;padding:24px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-bottom:28px}
+  .card h2{margin:0 0 4px;font-size:20px;display:flex;align-items:center;gap:10px}
+  .card h2 .tag{font-size:12px;background:#1f6feb33;color:var(--blue);border:1px solid #1f6feb66;border-radius:20px;padding:2px 10px;font-weight:normal}
+  .card .desc{color:var(--dim);font-size:13px;margin:0 0 14px}
+  .toolbar{display:flex;justify-content:flex-end;margin-bottom:8px}
+  button.svg-dl{background:#21262d;color:var(--text);border:1px solid var(--border);border-radius:8px;padding:5px 14px;font-size:12px;cursor:pointer}
+  button.svg-dl:hover{background:#30363d}
+  .mermaid{background:#0d1117;border:1px dashed var(--border);border-radius:8px;padding:14px;overflow:auto;text-align:center}
+  .mermaid svg{max-width:100%;height:auto}
+  .notes{font-size:13px;color:var(--dim)}
+  .notes li{margin:3px 0}
+  .notes code{background:#21262d;border-radius:4px;padding:1px 6px;color:var(--orange);font-size:12px}
+  footer{padding:20px;text-align:center;color:var(--dim);font-size:12px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>KnightRing · UeLearn</h1>
+  <p>技术栈思维导图 &amp; GAS（Gameplay Ability System）架构图</p>
+  <p>基于项目源码与配置自动整理 · UE 5.4 · 魂系（Sekiro / Dark Souls 风格）GAS 战斗 Demo</p>
+  <div class="stats">
+    <div class="stat"><b>8</b> 个 C++ 类</div>
+    <div class="stat"><b>11</b> 个 GAS 属性</div>
+    <div class="stat"><b>54</b> 个 GameplayTag</div>
+    <div class="stat"><b>10</b> 个模块依赖</div>
+    <div class="stat"><b>4</b> 个第三方插件</div>
+    <div class="stat">渲染 <b>Lumen + VSM + VT</b></div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ 1. 技术栈思维导图 ============ -->
+  <section class="card">
+    <h2>① 技术栈思维导图 <span class="tag">mindmap</span></h2>
+    <p class="desc">项目实际用到的技术全景（依据 UeLearn.Build.cs / UeLearn.uproject / DefaultEngine.ini 与源码）</p>
+    <div class="toolbar"><button class="svg-dl" data-name="techstack-mindmap">下载 SVG</button></div>
+    <pre class="mermaid">
+mindmap
+  root((KnightRing · UeLearn))
+    引擎与渲染
+      Unreal Engine 5.4
+      Lumen 全局光照与反射
+      Virtual Shadow Maps 虚拟阴影贴图
+      Virtual Textures 虚拟纹理
+      DX12 · SM6
+      World Partition 大世界
+    开发语言
+      C++ 模块 UeLearn
+      Blueprint 混合开发
+      UPROPERTY / UFUNCTION 反射宏
+      USTRUCT / UENUM / 动态多播委托
+    核心框架 GAS
+      ASC 网络复制 Mixed
+      AttributeSet 11 个属性
+      GameplayEffect 效果
+      GameplayTag 54 个标签
+      GameplayCue 表现
+      TryActivateAbilitiesByTag 按标签激活
+    输入系统
+      Enhanced Input
+      InputMappingContext 映射上下文
+      InputAction 移动·视角·跳跃
+      键鼠 + 手柄
+    网络复制
+      OnRep_PlayerState
+      SetIsReplicated true
+      EGameplayEffectReplicationMode Mixed
+    异步与 IO
+      BlueprintAsyncActionBase 异步下载
+      FHttpModule HTTP
+      FTimerManager 定时器
+      FFileHelper 本地读写
+    导航与刷怪
+      Recast NavMesh 动态生成
+      GetRandomReachablePointInRadius
+      WaveDirector 波次刷怪 + Boss
+    自研玩法系统
+      Posture 架势条
+      EstusCount 元素瓶
+      HitStop 顿帧
+      EXP 升级三选一
+      连招·弹反·处决标签体系
+    插件生态
+      VRM4U · Assimp 模型导入
+      SwitchLanguage 本地化
+      KawaiiPhysics 物理动画
+      SPCRJointDynamics 关节动力学
+      AnimationWarping · ModelingTools
+    </pre>
+  </section>
+
+  <!-- ============ 2. GAS 组件结构 ============ -->
+  <section class="card">
+    <h2>② GAS 核心组件与类结构 <span class="tag">flowchart</span></h2>
+    <p class="desc">真实代码结构：MyCPPCharacterBase 持有 ASC + AttributeSetBase，属性回调触发状态能力</p>
+    <div class="toolbar"><button class="svg-dl" data-name="gas-structure">下载 SVG</button></div>
+    <pre class="mermaid">
+flowchart TB
+  subgraph CH["角色层 · Source/UeLearn/GameplayAbilitySystem/Characters/"]
+    MC["AMyCPPCharacterBase<br/>ACharacter + IAbilitySystemInterface"]
+    ASC["UAbilitySystemComponent 子对象<br/>SetIsReplicated(true)<br/>复制模式 Mixed"]
+    ABS["UAttributeSetBase 子对象"]
+  end
+  MC -- "CreateDefaultSubobject 创建" --> ASC
+  MC -- "CreateDefaultSubobject 创建" --> ABS
+  INIT["PossessedBy() / OnRep_PlayerState()"] ==>|"InitAbilityActorInfo(this, this)"| ASC
+
+  subgraph ATTR["属性层 · AttributeSets/AttributeSetBase.h/.cpp"]
+    A1["Health / MaxHealth<br/>生命"]
+    A2["Stamina / MaxStamina<br/>精力"]
+    A3["Posture / MaxPosture<br/>架势条"]
+    A4["EstusCount / MaxEstusCount<br/>元素瓶"]
+    A5["EXP / MaxEXP / Level<br/>经验与等级"]
+  end
+  ABS --- A1
+  ABS --- A2
+  ABS --- A3
+  ABS --- A4
+  ABS --- A5
+
+  ABS -- "PostGameplayEffectExecute() 属性回调" --> POST["钳制与触发判定<br/>Clamp + TryActivateAbilitiesByTag"]
+  POST ==>|"Health ≤ 0"| D1["激活 Status.Dead 能力<br/>死亡处理"]
+  POST ==>|"Posture 打满"| D2["激活 Status.Stun 能力<br/>架势归零 · 处决窗口"]
+  POST ==>|"EXP ≥ MaxEXP"| D3["Level +1 · MaxEXP +50<br/>广播 Event.LevelUp 升级事件"]
+
+  classDef char fill:#1f6feb22,stroke:#1f6feb,color:#58a6ff
+  classDef attr fill:#3fb95022,stroke:#3fb950,color:#3fb950
+  classDef trig fill:#f0883e22,stroke:#f0883e,color:#f0883e
+  class MC,ASC,ABS char
+  class A1,A2,A3,A4,A5 attr
+  class POST,D1,D2,D3 trig
+    </pre>
+  </section>
+
+  <!-- ============ 3. 战斗数据流 ============ -->
+  <section class="card">
+    <h2>③ GAS 战斗数据流管线 <span class="tag">pipeline</span></h2>
+    <p class="desc">从输入到表现的一条完整链路：标签驱动技能 → 效果改属性 → 属性回调 → 状态/升级 → 表现与手感</p>
+    <div class="toolbar"><button class="svg-dl" data-name="gas-pipeline">下载 SVG</button></div>
+    <pre class="mermaid">
+flowchart LR
+  IN["玩家输入<br/>Enhanced Input<br/>移动 / 视角 / 战斗按键"] --> TAG["按标签激活技能<br/>ASC.TryActivateAbilitiesByTag<br/>Action.Attack.Light · Defend · DrinkPotion · Dash"]
+  TAG --> GE["GameplayEffect 效果<br/>伤害 · 治疗 · 增益 · 冷却<br/>Data.Damage / Event.Heal / CoolDown.Dash"]
+  GE --> ATTR["UAttributeSetBase 属性变化<br/>Health · Stamina · Posture · EstusCount · EXP"]
+  ATTR --> POST["PostGameplayEffectExecute()<br/>钳制与判定"]
+  POST ==>|"血量归零"| DEAD["Status.Dead<br/>死亡能力触发"]
+  POST ==>|"架势打满"| STUN["Status.Stun<br/>处决窗口 · Posture 归零"]
+  POST ==>|"经验攒满"| LVUP["Level +1 · MaxEXP +50<br/>Event.LevelUp 三选一升级"]
+  DEAD --> CUE["GameplayCue 表现层<br/>Combat.BeHit · Block · Parry · Execute<br/>Heal · Charge · Dash.Active"]
+  STUN --> CUE
+  LVUP --> UI["蓝图 UI / HUD<br/>血量 · 精力 · 架势 · 瓶子 · 等级"]
+  CUE --> FEEL["手感增强<br/>ApplyHitStop 顿帧<br/>CustomTimeDilation 时间缩放"]
+  CUE --> UI
+
+  classDef io fill:#bc8cff22,stroke:#bc8cff,color:#bc8cff
+  classDef core fill:#1f6feb22,stroke:#1f6feb,color:#58a6ff
+  classDef out fill:#f0883e22,stroke:#f0883e,color:#f0883e
+  class IN,GE,ATTR,POST,FEEL core
+  class DEAD,STUN,LVUP out
+  class CUE,UI io
+    </pre>
+  </section>
+
+  <!-- ============ 4. GameplayTag 体系 ============ -->
+  <section class="card">
+    <h2>④ GameplayTag 标签体系 <span class="tag">mindmap</span></h2>
+    <p class="desc">Config/DefaultGameplayTags.ini 中的 54 个标签，按语义分组（魂系战斗的全部词汇表）</p>
+    <div class="toolbar"><button class="svg-dl" data-name="gas-tags">下载 SVG</button></div>
+    <pre class="mermaid">
+mindmap
+  root((GameplayTag 体系 · 54 个标签))
+    Action. 输入意图
+      Attack.Light / Boss / Counter
+      BeHit 受击
+      Defend.Start / End 防御
+      DrinkPotion 喝药
+      Execute 处决
+    Status. 状态
+      Dead 死亡
+      Stun 架势崩溃硬直
+      Hyperarmor 霸体
+      Damage.Immune 免伤
+      Posture.MakeZero / Regen
+      Stamina.Regen
+      Action.Attack / BeHit / Defend
+    Data. 属性数据
+      MaxHealth / MaxStamina
+      MaxPosture / Posture
+      EstusCount / MaxEstusCount
+      Damage 伤害量
+    Event. 事件
+      Input.Request 输入请求
+      HitTrace.Start / End 打击检测
+      Attack.Reset / Combo.Reset
+      Heal 治疗
+      LevelUp 升级
+      Abilities.Changed
+    CoolDown. 冷却
+      Dash 闪避冷却
+    GameplayCue. 表现
+      Combat.BeHit / Block / Parry / Execute
+      Charge / Charge.Jump 充能
+      Damage 受击数字
+      Heal 治疗特效
+      Dash.Active 闪避残影
+      Executed 处决演出
+    GameplayAbility.
+      Movement.Dash 闪避能力
+      Test 测试能力
+    </pre>
+  </section>
+
+  <!-- ============ 依据与说明 ============ -->
+  <section class="card">
+    <h2>⑤ 图的依据（源码与配置索引）</h2>
+    <ul class="notes">
+      <li><code>Source/UeLearn/UeLearn.Build.cs</code> — 模块依赖：GameplayAbilities / GameplayTags / GameplayTasks / EnhancedInput / HTTP / NavigationSystem</li>
+      <li><code>Source/UeLearn/GameplayAbilitySystem/Characters/MyCPPCharacterBase.h/.cpp</code> — ASC 子对象、复制 Mixed、PossessedBy / OnRep_PlayerState 初始化</li>
+      <li><code>Source/UeLearn/GameplayAbilitySystem/AttributeSets/AttributeSetBase.h/.cpp</code> — 11 属性、ATTRIBUTE_ACCESSORS 宏、PostGameplayEffectExecute（死亡 / 架势崩溃 / 升级判定）</li>
+      <li><code>Source/UeLearn/WaveDirector.h/.cpp</code> — 波次刷怪、Boss 召唤、NavMesh 随机点</li>
+      <li><code>Source/UeLearn/MyDownloader.h/.cpp</code> — BlueprintAsyncActionBase + FHttpModule 异步下载</li>
+      <li><code>Source/UeLearn/MyBlueprintFunctionLibrary.h/.cpp</code> — 本地 txt 读写 + ApplyHitStop 顿帧（CustomTimeDilation）</li>
+      <li><code>Source/UeLearn/Characters/MyCharacterBase.h/.cpp</code> — 弹簧臂相机、Enhanced Input（MappingContext / Move / Look / Jump）、委托与结构体练习</li>
+      <li><code>Source/UeLearn/MyNetCharacterBase.h/.cpp</code> — 网络复制入门（OnRep_PlayerState）</li>
+      <li><code>Config/DefaultGameplayTags.ini</code> — 54 个 GameplayTag 定义</li>
+      <li><code>Config/DefaultEngine.ini</code> — 默认地图 Gladiators_Land、Lumen/VSM/VT、动态 NavMesh、VRM4U 设置、自定义碰撞通道 Hittable/Destoryable/PickUpItem</li>
+      <li><code>UeLearn.uproject</code> — UE 5.4、启用插件：GameplayAbilities / VRM4U / SwitchLanguage / AnimationWarping / BlueprintFileUtils / WebBrowserWidget / ModelingToolsEditorMode</li>
+    </ul>
+    <p class="desc" style="margin-top:12px">注：能力（GameplayAbility）与效果（GameplayEffect）本体以蓝图资产形式位于 Content/ 中（未入库），图中为 C++ 侧的结构与数据流。</p>
+  </section>
+
+</main>
+
+<footer>KnightRing (UeLearn) · 由代码自动整理生成 · Mermaid 渲染 · 深色主题，点击「下载 SVG」可导出矢量图</footer>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    securityLevel: 'loose',
+    themeVariables: {
+      fontFamily: '"Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
+    },
+    flowchart: { curve: 'basis', useMaxWidth: true, htmlLabels: true, nodeSpacing: 40, rankSpacing: 55 },
+    mindmap: { useMaxWidth: true }
+  });
+
+  window.addEventListener('load', () => {
+    document.querySelectorAll('button.svg-dl').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const svg = btn.closest('.card').querySelector('.mermaid svg');
+        if (!svg) return;
+        const clone = svg.cloneNode(true);
+        const vb = svg.viewBox.baseVal;
+        const ns = 'http://www.w3.org/2000/svg';
+        const rect = document.createElementNS(ns, 'rect');
+        rect.setAttribute('x', vb.x - 20);
+        rect.setAttribute('y', vb.y - 20);
+        rect.setAttribute('width', vb.width + 40);
+        rect.setAttribute('height', vb.height + 40);
+        rect.setAttribute('fill', '#0d1117');
+        clone.insertBefore(rect, clone.firstChild);
+        const blob = new Blob([new XMLSerializer().serializeToString(clone)], { type: 'image/svg+xml;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = btn.dataset.name + '.svg';
+        a.click();
+        URL.revokeObjectURL(a.href);
+      });
+    });
+  });
+</script>
+</body>
+</html>
