@@ -118,6 +118,8 @@ GitHub 仓库只包含**代码与配置**。完整美术资源（约 9.3 GB）�
 | SwitchLanguage | Epic Fab 商城 |
 | KawaiiPhysics / SPCRJointDynamics | GitHub 开源插件 |
 
-## ⚖️ 许可提醒
+## ⚖️ 许可证
 
-`Content/` 中的市场资源（Fab / Epic 商城资产）仅供个人学习使用，请勿再分发。
+本仓库的**代码与文档**采用 [MIT License](LICENSE) 开源 —— 欢迎学习、引用、二次开发。
+
+> ⚠️ MIT 仅覆盖仓库内的代码与文档；`Content/` 中的市场资源（Fab / Epic 商城资产）保留其原始授权，仅供个人学习使用，请勿再分发。
