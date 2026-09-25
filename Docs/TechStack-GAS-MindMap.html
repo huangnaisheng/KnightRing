@@ -39,7 +39,7 @@
 <header>
   <h1>KnightRing · UeLearn</h1>
   <p>技术栈思维导图 &amp; GAS（Gameplay Ability System）架构图</p>
-  <p>基于项目源码与配置自动整理 · UE 5.4 · 魂系（Sekiro / Dark Souls 风格）GAS 战斗 Demo</p>
+  <p>基于项目源码 · 配置文件 · 开发日志整理 · UE 5.4 · 只狼风格 GAS 战斗 Demo（输入缓冲 / EQS 立回 / Boss 战）</p>
   <div class="stats">
     <div class="stat"><b>8</b> 个 C++ 类</div>
     <div class="stat"><b>11</b> 个 GAS 属性</div>
@@ -47,6 +47,7 @@
     <div class="stat"><b>10</b> 个模块依赖</div>
     <div class="stat"><b>4</b> 个第三方插件</div>
     <div class="stat">渲染 <b>Lumen + VSM + VT</b></div>
+    <div class="stat"><b>1</b> 场 Boss 战 · 5 招</div>
   </div>
 </header>
 
@@ -55,7 +56,7 @@
   <!-- ============ 1. 技术栈思维导图 ============ -->
   <section class="card">
     <h2>① 技术栈思维导图 <span class="tag">mindmap</span></h2>
-    <p class="desc">项目实际用到的技术全景（依据 UeLearn.Build.cs / UeLearn.uproject / DefaultEngine.ini 与源码）</p>
+    <p class="desc">项目实际用到的技术全景（依据 UeLearn.Build.cs / UeLearn.uproject / DefaultEngine.ini、源码与开发日志）</p>
     <div class="toolbar"><button class="svg-dl" data-name="techstack-mindmap">下载 SVG</button></div>
     <pre class="mermaid">
 mindmap
@@ -79,11 +80,13 @@ mindmap
       GameplayTag 54 个标签
       GameplayCue 表现
       TryActivateAbilitiesByTag 按标签激活
-    输入系统
-      Enhanced Input
+    输入与手感
+      Enhanced Input 增强输入
       InputMappingContext 映射上下文
       InputAction 移动·视角·跳跃
       键鼠 + 手柄
+      输入缓冲 Input Buffer 预输入
+      HitStop 全局顿帧 · C++ Lambda
     网络复制
       OnRep_PlayerState
       SetIsReplicated true
@@ -96,13 +99,30 @@ mindmap
     导航与刷怪
       Recast NavMesh 动态生成
       GetRandomReachablePointInRadius
-      WaveDirector 波次刷怪 + Boss
-    自研玩法系统
-      Posture 架势条
+      WaveDirector 波次刷怪
+      EndWave 定制 Boss 召唤
+    战斗系统 · 魂系
+      Posture 架势条与恢复
+      弹反 Parry · 防反 Counter
+      处决 Execute + 运镜
+      喝药 DrinkPotion 百分比回血
       EstusCount 元素瓶
-      HitStop 顿帧
-      EXP 升级三选一
-      连招·弹反·处决标签体系
+      连招 Combo · Attack Reset
+    敌人 AI
+      EQS_Starfe 立回走位
+      AI 弹反玩家并反击
+      AI 处决玩家
+      掉落物系统 Drop
+    Boss 战
+      5 招 · GA_BossAttack
+      Boss 大血条 UI
+      SpawnBoss 定制生成
+      手感微调 · 防受击覆盖
+    成长与 UI
+      经验条 EXP Bar
+      升级三选一面板
+      死亡 UI 与重来按钮
+      任务系统 Quest
     插件生态
       VRM4U · Assimp 模型导入
       SwitchLanguage 本地化
@@ -162,14 +182,15 @@ flowchart TB
     <div class="toolbar"><button class="svg-dl" data-name="gas-pipeline">下载 SVG</button></div>
     <pre class="mermaid">
 flowchart LR
-  IN["玩家输入<br/>Enhanced Input<br/>移动 / 视角 / 战斗按键"] --> TAG["按标签激活技能<br/>ASC.TryActivateAbilitiesByTag<br/>Action.Attack.Light · Defend · DrinkPotion · Dash"]
+  IN["玩家输入<br/>Enhanced Input<br/>移动 / 视角 / 战斗按键"] --> IBUF["输入缓冲 Input Buffer<br/>预输入窗口 · 连招 / 闪避衔接"]
+  IBUF --> TAG["按标签激活技能<br/>ASC.TryActivateAbilitiesByTag<br/>Action.Attack.Light · Defend · DrinkPotion · Dash<br/>Retrigger Instanced Ability 防受击覆盖"]
   TAG --> GE["GameplayEffect 效果<br/>伤害 · 治疗 · 增益 · 冷却<br/>Data.Damage / Event.Heal / CoolDown.Dash"]
   GE --> ATTR["UAttributeSetBase 属性变化<br/>Health · Stamina · Posture · EstusCount · EXP"]
   ATTR --> POST["PostGameplayEffectExecute()<br/>钳制与判定"]
   POST ==>|"血量归零"| DEAD["Status.Dead<br/>死亡能力触发"]
   POST ==>|"架势打满"| STUN["Status.Stun<br/>处决窗口 · Posture 归零"]
   POST ==>|"经验攒满"| LVUP["Level +1 · MaxEXP +50<br/>Event.LevelUp 三选一升级"]
-  DEAD --> CUE["GameplayCue 表现层<br/>Combat.BeHit · Block · Parry · Execute<br/>Heal · Charge · Dash.Active"]
+  DEAD --> CUE["GameplayCue 表现层<br/>Combat.BeHit · Block · Parry · Execute 处决运镜<br/>Heal · Charge · Dash.Active"]
   STUN --> CUE
   LVUP --> UI["蓝图 UI / HUD<br/>血量 · 精力 · 架势 · 瓶子 · 等级"]
   CUE --> FEEL["手感增强<br/>ApplyHitStop 顿帧<br/>CustomTimeDilation 时间缩放"]
@@ -178,7 +199,7 @@ flowchart LR
   classDef io fill:#bc8cff22,stroke:#bc8cff,color:#bc8cff
   classDef core fill:#1f6feb22,stroke:#1f6feb,color:#58a6ff
   classDef out fill:#f0883e22,stroke:#f0883e,color:#f0883e
-  class IN,GE,ATTR,POST,FEEL core
+  class IN,IBUF,GE,ATTR,POST,FEEL core
   class DEAD,STUN,LVUP out
   class CUE,UI io
     </pre>
@@ -248,6 +269,7 @@ mindmap
       <li><code>Config/DefaultGameplayTags.ini</code> — 54 个 GameplayTag 定义</li>
       <li><code>Config/DefaultEngine.ini</code> — 默认地图 Gladiators_Land、Lumen/VSM/VT、动态 NavMesh、VRM4U 设置、自定义碰撞通道 Hittable/Destoryable/PickUpItem</li>
       <li><code>UeLearn.uproject</code> — UE 5.4、启用插件：GameplayAbilities / VRM4U / SwitchLanguage / AnimationWarping / BlueprintFileUtils / WebBrowserWidget / ModelingToolsEditorMode</li>
+      <li><code>日志.txt</code> / <code>具体的开发日志.txt</code> — 3.14–4.1 开发时间线：拆解只狼战斗 · 输入缓冲 · HitStop 顿帧 · EQS_Starfe 立回 · AI 弹反/处决 · Boss 战 5 招与大血条 · 掉落物 · 任务系统 · 升级三选一 · 死亡重来（AI、任务、掉落、UI 面板等为蓝图侧实现）</li>
     </ul>
     <p class="desc" style="margin-top:12px">注：能力（GameplayAbility）与效果（GameplayEffect）本体以蓝图资产形式位于 Content/ 中（未入库），图中为 C++ 侧的结构与数据流。</p>
   </section>
